@@ -65,6 +65,13 @@ export default class SongCard extends React.Component {
         return this.props.id.substring("song-card-".length);
     }
 
+    handleDeleteCard = (event) => {
+        console.log("deleting song")
+    }
+    handleDuplicateCard = (event) => {
+        console.log("duplicating song")
+    }
+
     render() {
         const { song } = this.props;
         let num = this.getItemNum();
@@ -88,9 +95,25 @@ export default class SongCard extends React.Component {
                 onDragEnd={this.handleDragEnd}
                 draggable="true"
             >
-                {num}. 
-                <a className = "song-card-title" href={"https://www.youtube.com/watch?v="+song.youTubeId}>{song.title}</a> 
-                <span>({song.year})</span> by <span class = "song-card-artist">{song.artist}</span>
+                <span>
+                    {num}. 
+                    <a className = "song-card-title" href={"https://www.youtube.com/watch?v="+song.youTubeId}>{song.title}</a> 
+                    ({song.year}) by 
+                    <span className = "song-card-artist"> {song.artist}</span>
+                </span>  
+                <div style={{flexGrow:1}}></div>
+                <input 
+                    className = "card-button" 
+                    type="button" 
+                    value ={"⎘"}
+                    onClick={this.handleDuplicateCard}
+                />
+                <input 
+                    className = "card-button" 
+                    type="button" 
+                    value ={"\u2715"}
+                    onClick={this.handleDeleteCard}
+                />
             </div>
         )
     }

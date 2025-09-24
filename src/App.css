@@ -140,6 +140,9 @@ body {
   float:right;
   color: black;
   cursor: pointer;
+  border-radius:5px;
+  margin:3px;
+  border:1px solid black
 }
 
 .card-button:hover {
@@ -238,6 +241,7 @@ input {
 span {
   font-weight: bold;
   font-style: italic;
+  width:max-content;
 }
 
 .modal-south {
