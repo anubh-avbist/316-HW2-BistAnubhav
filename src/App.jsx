@@ -15,7 +15,7 @@ import DeleteListModal from './components/DeleteListModal.jsx';
 import Banner from './components/Banner.jsx';
 import EditToolbar from './components/EditToolbar.jsx';
 import SidebarHeading from './components/SidebarHeading.jsx';
-import SidebarList from './components/PlaylistCards.jsx';
+import PlaylistCards from './components/PlaylistCards.jsx';
 import SongCards from './components/SongCards.jsx';
 import Statusbar from './components/Statusbar.jsx';
 
@@ -280,12 +280,12 @@ class App extends React.Component {
         let canRedo = this.tps.hasTransactionToDo();
         let canClose = this.state.currentList !== null;
         return (
-            <div id="root">
+            <>
                 <Banner />
                 <SidebarHeading
                     createNewListCallback={this.createNewList}
                 />
-                <SidebarList
+                <PlaylistCards
                     currentList={this.state.currentList}
                     keyNamePairs={this.state.sessionData.keyNamePairs}
                     deleteListCallback={this.markListForDeletion}
@@ -311,7 +311,7 @@ class App extends React.Component {
                     hideDeleteListModalCallback={this.hideDeleteListModal}
                     deleteListCallback={this.deleteMarkedList}
                 />
-            </div>
+            </>
         );
     }
 }
