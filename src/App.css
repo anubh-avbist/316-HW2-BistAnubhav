@@ -19,7 +19,7 @@ body {
 
 #root {
   background-color: var(--swatch-primary);
-  font-family: serif;
+  font-family: "Space Mono", monospace;
   position: absolute;
   width: 80%;
   left: 10%;
@@ -108,25 +108,29 @@ body {
   float:left;
 }
 
-.playlist-card, .selected-playlist-card, .unselected-playlist-card {
+.playlist-card, .selected-playlist-card, .unselected-playlist-card,
+.song-card, .selected-song-card, .unselected-song-card  {
   font-size: 18pt;
   margin: 10px;
   padding: 20px;
   border-radius: 25px;
 }
 
-.unselected-playlist-card:hover {
+.unselected-playlist-card:hover,
+.unselected-song-card:hover {
   cursor: pointer;
   background-color: var(--swatch-contrast);
   color:white;
 }
 
-.selected-playlist-card {
+.selected-playlist-card,
+.selected-song-card {
   background-color: var(--swatch-accent);
   color: white;
 }
 
-.unselected-playlist-card {
+.unselected-playlist-card,
+.unselected-song-card {
   background-color: var(--swatch-complement);
 }
 
@@ -155,10 +159,23 @@ body {
   height:20%;
 }
 
+.is-dragging {
+  border: 2px black solid;
+  opacity: 0.5;
+}
+
 input {
   font-size:20pt;
 }
 
+.song-card-title{
+  color:darkgoldenrod;
+  text-decoration: none;
+}
+
+.song-card-artist{
+  color:red;
+}
 
 /* THIS STYLE SHEET MANAGES STYLE FOR OUR MODAL, i.e. DIALOG BOX */
 

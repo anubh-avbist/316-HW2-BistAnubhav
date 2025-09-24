@@ -39,12 +39,11 @@ export default class SongCard extends React.Component {
     }
     handleDrop = (event) => {
         event.preventDefault();
-        let target = event.target;
+        let target = event.currentTarget;
         let targetId = target.id;
         targetId = targetId.substring(target.id.indexOf("-") + 1);
         let sourceId = event.dataTransfer.getData("song");
         sourceId = sourceId.substring(sourceId.indexOf("-") + 1);
-        
         this.setState(prevState => ({
             isDragging: false,
             draggedTo: false
@@ -53,6 +52,14 @@ export default class SongCard extends React.Component {
         // ASK THE MODEL TO MOVE THE DATA
         this.props.moveCallback(sourceId, targetId);
     }
+    handleDragEnd = (event) => {
+        event.preventDefault();
+        this.setState(prevState => ({
+            isDragging: false,
+            draggedTo: false
+        }));
+    }
+    
 
     getItemNum = () => {
         return this.props.id.substring("song-card-".length);
@@ -61,10 +68,13 @@ export default class SongCard extends React.Component {
     render() {
         const { song } = this.props;
         let num = this.getItemNum();
-        console.log("num: " + num);
-        let itemClass = "song-card";
+        // console.log("num: " + num);
+        let itemClass = "song-card unselected-song-card";
         if (this.state.draggedTo) {
-            itemClass = "song-card-dragged-to";
+            itemClass = "song-card song-card-dragged-to";
+        } 
+        if (this.state.isDragging){
+            itemClass = "song-card is-dragging"
         }
         return (
             <div
@@ -75,9 +85,12 @@ export default class SongCard extends React.Component {
                 onDragEnter={this.handleDragEnter}
                 onDragLeave={this.handleDragLeave}
                 onDrop={this.handleDrop}
+                onDragEnd={this.handleDragEnd}
                 draggable="true"
             >
-                {song.title} by {song.artist}
+                {num}. 
+                <a className = "song-card-title" href={"https://www.youtube.com/watch?v="+song.youTubeId}>{song.title}</a> 
+                <span>({song.year})</span> by <span class = "song-card-artist">{song.artist}</span>
             </div>
         )
     }
