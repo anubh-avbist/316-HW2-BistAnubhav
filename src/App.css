@@ -47,7 +47,7 @@ body {
   background-image: linear-gradient(to bottom,         
   #b8b808, #636723);
   color: white;
-  font-size: 54pt;
+  font-size: 42pt;
   border-color: black;
   border-width: 2px;
   border-style: solid;
@@ -58,7 +58,7 @@ body {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
   text-align:center;
-  font-size: 36pt;
+  font-size: 28pt;
   font-weight: bold;
   display:flex;
   flex-direction: row;
@@ -100,7 +100,7 @@ body {
   background-color: #FFA07A;
   color: black;
   text-align: center;
-  font-size: 38pt;
+  font-size: 32pt;
   padding-top: 4px;
 }
 
@@ -155,7 +155,7 @@ body {
 .song-card, .song-card-dragged-to { 
   display:flex;
   align-items: center;
-  font-size: 24pt;
+  font-size: 16pt;
   height:20%;
 }
 
@@ -203,8 +203,8 @@ input {
 
 .modal-root {
   position: relative;
-  max-width: 1200vw;
-  max-height: 600vh;
+  max-width: 60vw;
+  max-height: 60vh;
   overflow: visible;
   display: flex;
   flex-direction: column;
@@ -232,7 +232,7 @@ input {
   grid-template-columns: 30% 65%;
   grid-template-rows: 33% 33% 33%;
   gap: 10px 20px;
-  font-size: 48pt;
+  font-size: 32pt;
 }
 
 span {
