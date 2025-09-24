@@ -87,6 +87,54 @@ class App extends React.Component {
             this.db.mutationUpdateSessionData(this.state.sessionData);
         });
     }
+    // THIS FUNCTION BEGINS THE PROCESS OF DUPLICATING A NEW LIST
+    duplicateList = (keyNamePair) => {
+        let oldKey = keyNamePair.key;
+        let oldName = keyNamePair.name;
+        // FIRST FIGURE OUT WHAT THE NEW LIST'S KEY AND NAME WILL BE
+        let newKey = this.state.sessionData.nextKey;
+        let newName = oldName + " (Copy)";
+
+        // MAKE THE NEW LIST
+        let newList = {
+            key: newKey,
+            name: newName,
+            songs: []
+        };
+        
+        this.db.queryGetList(oldKey).songs.forEach(song => {
+            newList.songs.push(JSON.parse(JSON.stringify(song))); // DEEP COPY
+        });
+
+        // MAKE THE KEY,NAME OBJECT SO WE CAN KEEP IT IN OUR
+        // SESSION DATA SO IT WILL BE IN OUR LIST OF LISTS
+        let newKeyNamePair = { "key": newKey, "name": newName };
+        let updatedPairs = [...this.state.sessionData.keyNamePairs, newKeyNamePair];
+        this.sortKeyNamePairsByName(updatedPairs);
+
+        // CHANGE THE APP STATE SO THAT THE CURRENT LIST IS
+        // THIS NEW LIST AND UPDATE THE SESSION DATA SO THAT THE
+        // NEXT LIST CAN BE MADE AS WELL. NOTE, THIS setState WILL
+        // FORCE A CALL TO render, BUT THIS UPDATE IS ASYNCHRONOUS,
+        // SO ANY AFTER EFFECTS THAT NEED TO USE THIS UPDATED STATE
+        // SHOULD BE DONE VIA ITS CALLBACK
+        this.setState(prevState => ({
+            listKeyPairMarkedForDeletion : prevState.listKeyPairMarkedForDeletion,
+            currentList: newList,
+            sessionData: {
+                nextKey: prevState.sessionData.nextKey + 1,
+                counter: prevState.sessionData.counter + 1,
+                keyNamePairs: updatedPairs
+            }
+        }), () => {
+            // PUTTING THIS NEW LIST IN PERMANENT STORAGE
+            // IS AN AFTER EFFECT
+            this.db.mutationCreateList(newList);
+
+            // SO IS STORING OUR SESSION DATA
+            this.db.mutationUpdateSessionData(this.state.sessionData);
+        })
+    }
     // THIS FUNCTION BEGINS THE PROCESS OF DELETING A LIST.
     deleteList = (key) => {
         // IF IT IS THE CURRENT LIST, CHANGE THAT
@@ -291,6 +339,7 @@ class App extends React.Component {
                     deleteListCallback={this.markListForDeletion}
                     loadListCallback={this.loadList}
                     renameListCallback={this.renameList}
+                    duplicateListCallback={this.duplicateList}
                 />
                 <EditToolbar
                     canAddSong={canAddSong}

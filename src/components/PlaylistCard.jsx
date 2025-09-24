@@ -30,7 +30,7 @@ export default class PlaylistCard extends React.Component {
     }
     handleDuplicateList = (event) => {
         event.stopPropagation();
-        console.log("DUPLICATE");
+        this.props.duplicateListCallback(this.props.keyNamePair);
     }
     handleToggleEdit = (event) => {
         this.setState({
