@@ -1,9 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 
 export default class SongEditModal extends Component {
     constructor(props) {
         super(props);
     }
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown = (event) => {
+        const {confirmEditCallback} = this.props;
+        let modal = document.getElementById("song-edit-modal");
+        if(event.key == "Enter" && modal.classList.contains("is-visible")){
+            confirmEditCallback();
+        }
+    };
+
 
     render() {
         

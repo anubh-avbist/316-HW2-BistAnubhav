@@ -1,6 +1,21 @@
 import React, { Component } from 'react';
 
 export default class DeleteListModal extends Component {
+
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown = (event) => {
+        const {deleteListCallback} = this.props;
+        let modal = document.getElementById("delete-list-modal");
+        if(event.key == "Enter" && modal.classList.contains("is-visible")){
+            deleteListCallback();
+        }
+    };
+
+
     render() {
         const { listKeyPair, deleteListCallback, hideDeleteListModalCallback } = this.props;
         let name = "";
