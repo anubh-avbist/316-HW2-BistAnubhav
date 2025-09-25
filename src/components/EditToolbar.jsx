@@ -2,9 +2,15 @@ import React from "react";
 
 export default class EditToolbar extends React.Component {
     handleClick = (event) => {
-        const { createNewSongCallback, canAddSong} = this.props;
+        const { createNewSongCallback, canAddSong, currentList} = this.props;
         if(canAddSong){
-            createNewSongCallback();
+            createNewSongCallback(currentList.songs.length, 
+            {
+                title: "Untitled",
+                artist: "???",
+                year: 2000,
+                youTubeId: "dQw4w9WgXcQ"
+            });
         }
     };
     render() {

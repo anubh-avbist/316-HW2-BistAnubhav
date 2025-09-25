@@ -18,6 +18,8 @@ import SidebarHeading from './components/SidebarHeading.jsx';
 import PlaylistCards from './components/PlaylistCards.jsx';
 import SongCards from './components/SongCards.jsx';
 import Statusbar from './components/Statusbar.jsx';
+import CreateSong_Transaction from './transactions/CreateSong_Transaction.js';
+import RemoveSong_Transaction from './transactions/RemoveSong_Transaction.js';
 
 class App extends React.Component {
     constructor(props) {
@@ -46,9 +48,27 @@ class App extends React.Component {
         });
     }
     // THIS FUNCTION BEGINS THE PROCESS OF CREATING A NEW LIST
-    createNewSong = () => {
-        console.log("CREATE NEW SONG");
+    createNewSong = (index, song) => {
+        let list = this.state.currentList;
+        list.songs.splice(index, 0, song)
+        
+        this.setStateWithUpdatedList(list);
     }
+    // THIS FUNCTION ADDS A MoveSong_Transaction TO THE TRANSACTION STACK
+    createNewSongTransaction = (index, song) => {
+        let transaction = new CreateSong_Transaction(this, index, song);
+        this.tps.processTransaction(transaction);
+    }
+    removeSong = (index) => {
+        let list = this.state.currentList;
+        list.songs.splice(index, 1);
+        this.setStateWithUpdatedList(list);
+    }
+    removeSongTransaction = (index, song) => {
+        let transaction = new RemoveSong_Transaction(this, index, song);
+        this.tps.processTransaction(transaction);
+    }
+
 
     // THIS FUNCTION BEGINS THE PROCESS OF CREATING A NEW LIST
     createNewList = () => {
@@ -350,7 +370,7 @@ class App extends React.Component {
                     duplicateListCallback={this.duplicateList}
                 />
                 <EditToolbar
-                    createNewSongCallback={this.createNewSong}
+                    createNewSongCallback={this.createNewSongTransaction}
                     canAddSong={canAddSong}
                     canUndo={canUndo}
                     canRedo={canRedo}
@@ -358,10 +378,12 @@ class App extends React.Component {
                     undoCallback={this.undo}
                     redoCallback={this.redo}
                     closeCallback={this.closeCurrentList}
+                    currentList={this.state.currentList}
                 />
                 <SongCards
                     currentList={this.state.currentList}
-                    moveSongCallback={this.addMoveSongTransaction} />
+                    moveSongCallback={this.addMoveSongTransaction} 
+                    removeSongTransaction={this.removeSongTransaction}/>
                 <Statusbar 
                     currentList={this.state.currentList} />
                 <DeleteListModal

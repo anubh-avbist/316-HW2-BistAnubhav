@@ -4,7 +4,8 @@ import React from "react";
 export default class SongCards extends React.Component {
     render() {
         const { currentList, 
-                moveSongCallback } = this.props;
+                moveSongCallback, 
+                removeSongTransaction } = this.props;
         if (currentList === null) {
             return (
                 <div id="song-cards"></div>
@@ -16,10 +17,12 @@ export default class SongCards extends React.Component {
                     {
                         currentList.songs.map((song, index) => (
                             <SongCard
+                                index={index}
                                 id={'song-card-' + (index+1)}
                                 key={'song-card-' + (index+1)}
                                 song={song}
                                 moveCallback={moveSongCallback}
+                                removeSongTransaction={removeSongTransaction}
                             />
                         ))
                     }
