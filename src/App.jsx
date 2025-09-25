@@ -42,6 +42,23 @@ class App extends React.Component {
             sessionData : loadedSessionData
         }
     }
+    
+    handleKeyDown = (event) => {
+        if(event.ctrlKey && event.key==='z'){
+            this.undo();
+        }
+
+        if(event.ctrlKey && event.key==='y'){
+            this.redo();
+        }
+    }
+    componentDidMount(){
+        window.addEventListener("keydown", this.handleKeyDown);
+    }
+    componentWillUnmount(){
+        window.removeEventListener("keydown", this.handleKeyDown);
+    }
+
     sortKeyNamePairsByName = (keyNamePairs) => {
         keyNamePairs.sort((keyPair1, keyPair2) => {
             // GET THE LISTS
