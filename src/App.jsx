@@ -380,12 +380,28 @@ class App extends React.Component {
         modal.classList.remove("is-visible");
     }
     confirmEditCallback = () => {
+        let newSong = {
+            title: document.getElementById("edit-song-modal-title-textfield").value,
+            artist: document.getElementById("edit-song-modal-artist-textfield").value,
+            year: document.getElementById("edit-song-modal-year-textfield").value,
+            youTubeId: document.getElementById("edit-song-modal-youTubeId-textfield").value
+        };
+
+        let transaction = new EditSong_Transaction(this, this.state.selectedIndex, this.state.selectedSong, newSong);
+        this.tps.processTransaction(transaction);
+        
         this.hideSongEditModalCallback();
     }
 
-    showSongEditModalCallback = () => {
+    showSongEditModalCallback = (song, index) => {
         let modal = document.getElementById("song-edit-modal");
+        document.getElementById("edit-song-modal-title-textfield").value=song.title;
+        document.getElementById("edit-song-modal-artist-textfield").value=song.artist;
+        document.getElementById("edit-song-modal-year-textfield").value=song.year;
+        document.getElementById("edit-song-modal-youTubeId-textfield").value=song.youTubeId;
         modal.classList.add("is-visible");
+        this.state.selectedSong = song;
+        this.state.selectedIndex = index;
     }
 
     hideSongEditModalCallback = () => {
@@ -393,13 +409,10 @@ class App extends React.Component {
         modal.classList.remove("is-visible");
     }
 
-    editSong = (oldSong, newSong) => {
-
-    }
-
-    editSongTransaction = (oldSong, newSong) => {
-        let transaction = new EditSong_Transaction(oldSong, newSong);
-        this.tps.processTransaction(transaction);
+    editSong = (index, newSong) => {
+        let list = this.state.currentList;
+        list.songs[index] = newSong;
+        this.setStateWithUpdatedList(list);
 
     }
 
@@ -439,13 +452,14 @@ class App extends React.Component {
                     moveSongCallback={this.addMoveSongTransaction} 
                     removeSongTransaction={this.removeSongTransaction}
                     duplicateSongTransaction={this.duplicateSongTransaction}
-                    editSongTransaction={this.showSongEditModalCallback}
+                    showSongEditModalCallback={this.showSongEditModalCallback}
                     />
                 <Statusbar 
                     currentList={this.state.currentList} />
                 <SongEditModal
                     confirmEditCallback={this.confirmEditCallback}
                     hideSongEditModalCallback={this.hideSongEditModalCallback}
+                    song={this.currentSong}
                 />
                 <DeleteListModal
                     listKeyPair={this.state.listKeyPairMarkedForDeletion}

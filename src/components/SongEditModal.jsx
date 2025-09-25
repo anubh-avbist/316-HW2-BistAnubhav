@@ -3,18 +3,11 @@ import React, { Component } from 'react';
 export default class SongEditModal extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            title: "?",
-            artist: "?",
-            id: "?",
-            year: 0
-
-        }
     }
 
     render() {
         
-        const { confirmEditCallback, hideSongEditModalCallback } = this.props;
+        const { confirmEditCallback, hideSongEditModalCallback, song } = this.props;
         
         return (
             <div 
@@ -28,20 +21,22 @@ export default class SongEditModal extends Component {
                         <div class="modal-center">
                             <div class="modal-center-content">
                                 <div id="title-prompt" class="modal-prompt">Title:</div>
-                                <input id="edit-song-modal-title-textfield" class='modal-textfield' type="text" defaultValue={this.state.title} />
+                                <input id="edit-song-modal-title-textfield" class='modal-textfield' type="text" />
                                 <div id="artist-prompt" class="modal-prompt">Artist:</div>
-                                <input id="edit-song-modal-artist-textfield" class='modal-textfield' type="text" defaultValue={this.state.artist} />
+                                <input id="edit-song-modal-artist-textfield" class='modal-textfield' type="text" />
                                 <div id="you-tube-id-prompt" class="modal-prompt">YouTube Id:</div>
-                                <input id="edit-song-modal-youTubeId-textfield" class='modal-textfield' type="text" defaultValue={this.state.id} />
+                                <input id="edit-song-modal-youTubeId-textfield" class='modal-textfield' type="text" />
                                 <div id="year-prompt" class="modal-prompt">Year:</div>
-                                <input id="edit-song-modal-year-textfield" class='modal-textfield' type="number" defaultValue={this.state.year} />
+                                <input id="edit-song-modal-year-textfield" class='modal-textfield' type="number" />
                             </div>
                         </div>
                         <div class="modal-south">
                             <input type="button" 
                                 id="song-edit-confirm-button" 
                                 class="modal-button" 
-                                onClick={confirmEditCallback}
+                                onClick={() => {
+                                    confirmEditCallback();
+                                }}
                                 value='Confirm' />
                             <input type="button" 
                                 id="song-edit-cancel-button" 

@@ -77,9 +77,9 @@ export default class SongCard extends React.Component {
     }
     
     handleDoubleClick = (event) => {
-        const {editSongTransaction} = this.props;
+        const {showSongEditModalCallback, song, index} = this.props;
         event.preventDefault();
-        editSongTransaction(1,2);
+        showSongEditModalCallback(song, index);
     }
 
     render() {
