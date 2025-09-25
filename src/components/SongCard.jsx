@@ -68,9 +68,11 @@ export default class SongCard extends React.Component {
     handleDeleteCard = (event) => {
         const {removeSongTransaction, song, index} = this.props;
         removeSongTransaction(index,song);
-        console.log("deleting song")
     }
     handleDuplicateCard = (event) => {
+        const {duplicateSongTransaction, song, index} = this.props;
+        let duplicateSong = JSON.parse(JSON.stringify(song));
+        duplicateSongTransaction(index, duplicateSong);
         console.log("duplicating song")
     }
 

@@ -20,6 +20,7 @@ import SongCards from './components/SongCards.jsx';
 import Statusbar from './components/Statusbar.jsx';
 import CreateSong_Transaction from './transactions/CreateSong_Transaction.js';
 import RemoveSong_Transaction from './transactions/RemoveSong_Transaction.js';
+import DuplicateSong_Transaction from './transactions/DuplicateSong_Transaction.js'
 
 class App extends React.Component {
     constructor(props) {
@@ -69,6 +70,14 @@ class App extends React.Component {
         this.tps.processTransaction(transaction);
     }
 
+    duplicateSong = (index, song)=> {
+        this.createNewSong(index, song);
+    }
+
+    duplicateSongTransaction = (index, song) => {
+        let transaction = new DuplicateSong_Transaction(this, index, song);
+        this.tps.processTransaction(transaction);
+    }
 
     // THIS FUNCTION BEGINS THE PROCESS OF CREATING A NEW LIST
     createNewList = () => {
@@ -169,6 +178,8 @@ class App extends React.Component {
                 // THIS JUST MEANS IT'S NOT THE CURRENT LIST BEING
                 // DELETED SO WE'LL KEEP THE CURRENT LIST AS IT IS
                 newCurrentList = this.state.currentList;
+            } else {
+                this.tps.clearAllTransactions();
             }
         }
 
@@ -383,7 +394,8 @@ class App extends React.Component {
                 <SongCards
                     currentList={this.state.currentList}
                     moveSongCallback={this.addMoveSongTransaction} 
-                    removeSongTransaction={this.removeSongTransaction}/>
+                    removeSongTransaction={this.removeSongTransaction}
+                    duplicateSongTransaction={this.duplicateSongTransaction}/>
                 <Statusbar 
                     currentList={this.state.currentList} />
                 <DeleteListModal
