@@ -75,6 +75,12 @@ export default class SongCard extends React.Component {
         duplicateSongTransaction(index, duplicateSong);
         console.log("duplicating song")
     }
+    
+    handleDoubleClick = (event) => {
+        const {editSongTransaction} = this.props;
+        event.preventDefault();
+        editSongTransaction(1,2);
+    }
 
     render() {
         const { song } = this.props;
@@ -98,6 +104,7 @@ export default class SongCard extends React.Component {
                 onDrop={this.handleDrop}
                 onDragEnd={this.handleDragEnd}
                 draggable="true"
+                onDoubleClick={this.handleDoubleClick}
             >
                 <span>
                     {num}. 

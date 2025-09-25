@@ -20,7 +20,9 @@ import SongCards from './components/SongCards.jsx';
 import Statusbar from './components/Statusbar.jsx';
 import CreateSong_Transaction from './transactions/CreateSong_Transaction.js';
 import RemoveSong_Transaction from './transactions/RemoveSong_Transaction.js';
-import DuplicateSong_Transaction from './transactions/DuplicateSong_Transaction.js'
+import DuplicateSong_Transaction from './transactions/DuplicateSong_Transaction.js';
+import EditSong_Transaction from './transactions/EditSong_Transaction.js';
+import SongEditModal from './components/SongEditModal.jsx';
 
 class App extends React.Component {
     constructor(props) {
@@ -377,6 +379,30 @@ class App extends React.Component {
         let modal = document.getElementById("delete-list-modal");
         modal.classList.remove("is-visible");
     }
+    confirmEditCallback = () => {
+        this.hideSongEditModalCallback();
+    }
+
+    showSongEditModalCallback = () => {
+        let modal = document.getElementById("song-edit-modal");
+        modal.classList.add("is-visible");
+    }
+
+    hideSongEditModalCallback = () => {
+        let modal = document.getElementById("song-edit-modal");
+        modal.classList.remove("is-visible");
+    }
+
+    editSong = (oldSong, newSong) => {
+
+    }
+
+    editSongTransaction = (oldSong, newSong) => {
+        let transaction = new EditSong_Transaction(oldSong, newSong);
+        this.tps.processTransaction(transaction);
+
+    }
+
     render() {
         let canAddSong = this.state.currentList !== null;
         let canUndo = this.tps.hasTransactionToUndo();
@@ -412,9 +438,15 @@ class App extends React.Component {
                     currentList={this.state.currentList}
                     moveSongCallback={this.addMoveSongTransaction} 
                     removeSongTransaction={this.removeSongTransaction}
-                    duplicateSongTransaction={this.duplicateSongTransaction}/>
+                    duplicateSongTransaction={this.duplicateSongTransaction}
+                    editSongTransaction={this.showSongEditModalCallback}
+                    />
                 <Statusbar 
                     currentList={this.state.currentList} />
+                <SongEditModal
+                    confirmEditCallback={this.confirmEditCallback}
+                    hideSongEditModalCallback={this.hideSongEditModalCallback}
+                />
                 <DeleteListModal
                     listKeyPair={this.state.listKeyPairMarkedForDeletion}
                     hideDeleteListModalCallback={this.hideDeleteListModal}
