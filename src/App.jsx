@@ -46,6 +46,11 @@ class App extends React.Component {
         });
     }
     // THIS FUNCTION BEGINS THE PROCESS OF CREATING A NEW LIST
+    createNewSong = () => {
+        console.log("CREATE NEW SONG");
+    }
+
+    // THIS FUNCTION BEGINS THE PROCESS OF CREATING A NEW LIST
     createNewList = () => {
         // FIRST FIGURE OUT WHAT THE NEW LIST'S KEY AND NAME WILL BE
         let newKey = this.state.sessionData.nextKey;
@@ -218,6 +223,7 @@ class App extends React.Component {
     // THIS FUNCTION BEGINS THE PROCESS OF LOADING A LIST FOR EDITING
     loadList = (key) => {
         let newCurrentList = this.db.queryGetList(key);
+        this.tps.clearAllTransactions();
         this.setState(prevState => ({
             listKeyPairMarkedForDeletion : prevState.listKeyPairMarkedForDeletion,
             currentList: newCurrentList,
@@ -230,6 +236,7 @@ class App extends React.Component {
     }
     // THIS FUNCTION BEGINS THE PROCESS OF CLOSING THE CURRENT LIST
     closeCurrentList = () => {
+        this.tps.clearAllTransactions();
         this.setState(prevState => ({
             listKeyPairMarkedForDeletion : prevState.listKeyPairMarkedForDeletion,
             currentList: null,
@@ -237,7 +244,7 @@ class App extends React.Component {
         }), () => {
             // AN AFTER EFFECT IS THAT WE NEED TO MAKE SURE
             // THE TRANSACTION STACK IS CLEARED
-            this.tps.clearAllTransactions();
+            // this.tps.clearAllTransactions();
         });
     }
     setStateWithUpdatedList(list) {
@@ -331,6 +338,7 @@ class App extends React.Component {
             <>
                 <Banner />
                 <SidebarHeading
+                    canAddList={this.state.currentList==null}
                     createNewListCallback={this.createNewList}
                 />
                 <PlaylistCards
@@ -342,6 +350,7 @@ class App extends React.Component {
                     duplicateListCallback={this.duplicateList}
                 />
                 <EditToolbar
+                    createNewSongCallback={this.createNewSong}
                     canAddSong={canAddSong}
                     canUndo={canUndo}
                     canRedo={canRedo}

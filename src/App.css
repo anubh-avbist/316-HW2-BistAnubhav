@@ -13,6 +13,13 @@
   --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
 }
 
+.toolbar-button.disabled { 
+  opacity:0.5;
+}
+.toolbar-button.disabled:hover { 
+  pointer-events: none;
+}
+
 body {
   background-color: var(--swatch-foundation);
 }
