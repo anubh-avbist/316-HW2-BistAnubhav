@@ -389,7 +389,6 @@ class App extends React.Component {
 
         let transaction = new EditSong_Transaction(this, this.state.selectedIndex, this.state.selectedSong, newSong);
         this.tps.processTransaction(transaction);
-        
         this.hideSongEditModalCallback();
     }
 
@@ -417,6 +416,7 @@ class App extends React.Component {
     }
 
     render() {
+        this.sortKeyNamePairsByName(this.state.sessionData.keyNamePairs);
         let canAddSong = this.state.currentList !== null;
         let canUndo = this.tps.hasTransactionToUndo();
         let canRedo = this.tps.hasTransactionToDo();
